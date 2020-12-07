@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal"
+    android:gravity="left"
+    >
+
+    <CheckBox
+        android:id="@+id/checkbox_select"
+        android:layout_width="wrap_content"
+        android:layout_height="79dp"
+        android:layout_marginStart="4dp"
+        android:focusable="false"
+        android:gravity="center"
+        android:text="想吃"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="316dp" />
+
+    <ImageView
+        android:id="@+id/imageview_food"
+        android:layout_width="73dp"
+        android:layout_height="82dp"
+        android:layout_toRightOf="@id/checkbox_select"
+        android:scaleType="fitXY"
+        android:src="@drawable/hongshaorou"
+        app:layout_constraintEnd_toStartOf="@+id/textview_foodname"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/checkbox_select"
+        tools:layout_editor_absoluteY="291dp" />
+
+    <LinearLayout
+        android:layout_width="272dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textview_foodname"
+            android:layout_width="82dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="164dp"
+            android:text="名字"
+            android:textSize="15dp"
+            tools:layout_editor_absoluteY="329dp" />
+
+        <TextView
+            android:id="@+id/textview_foodingredient"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="164dp"
+            android:text="原料"
+            android:textSize="10dp" />
+
+    </LinearLayout>
+
+</LinearLayout>

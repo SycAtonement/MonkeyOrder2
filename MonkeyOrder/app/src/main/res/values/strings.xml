@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">MonkeyOrder</string>
+    <string name="password">monkey</string>
+    <string name="chicken">鸡</string>
+    <string name="duck">鸭</string>
+    <string name="fish">鱼</string>
+    <string name="meat">肉</string>
+    <string-array name="types">
+        <item>肉</item>
+        <item>菜</item>
+        <item>汤</item>
+    </string-array>
+
+</resources>

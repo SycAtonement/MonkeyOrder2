@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".OrderManager">
+
+    <TextView
+        android:id="@+id/t1"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:text="订单时间"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/t2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_toEndOf="@id/t1"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:text="详情"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/t3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:text="状态"
+        android:layout_toEndOf="@id/t2"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
+        android:layout_alignParentRight="true"
+        android:paddingRight="10dp"
+        />
+
+    <ListView
+        android:layout_below="@id/t1"
+        android:id="@+id/list_order"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="#666666"
+        android:dividerHeight="2dp">
+
+
+    </ListView>
+</RelativeLayout>

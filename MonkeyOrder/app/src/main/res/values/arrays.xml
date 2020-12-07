@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="food_names">
+        <item>@string/chicken</item>
+        <item>@string/duck</item>
+        <item>@string/fish</item>
+        <item>@string/meat</item>
+    </array>
+</resources>

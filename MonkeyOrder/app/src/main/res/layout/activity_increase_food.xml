@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context=".IncreaseFood">
+
+    <EditText
+        android:id="@+id/input_name"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:hint="菜名"
+        android:textSize="20dp"
+        tools:layout_editor_absoluteX="70dp"
+        tools:layout_editor_absoluteY="118dp" />
+
+    <EditText
+        android:id="@+id/input_type"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:hint="种类"
+        android:textSize="20dp"
+        tools:layout_editor_absoluteX="73dp"
+        tools:layout_editor_absoluteY="209dp" />
+
+    <EditText
+        android:id="@+id/input_ingredient"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:hint="原料"
+        android:textSize="20dp" />
+
+    <ImageButton
+        android:id="@+id/input_image"
+        android:layout_width="180dp"
+        android:layout_height="114dp"
+        android:src="@drawable/mm_plus"
+        android:scaleType="fitXY"
+        android:text="点击添加图片"
+        tools:layout_editor_absoluteX="75dp"
+        tools:layout_editor_absoluteY="324dp" />
+
+    <Button
+        android:id="@+id/increase_confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="确认添加"
+        tools:layout_editor_absoluteX="47dp"
+        tools:layout_editor_absoluteY="419dp" />
+
+    <Button
+        android:id="@+id/increase_quit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="返回"
+        tools:layout_editor_absoluteX="185dp"
+        tools:layout_editor_absoluteY="424dp" />
+
+    <ImageView
+        android:id="@+id/imagetest"
+        android:layout_width="190dp"
+        android:layout_height="89dp"
+        />
+
+</LinearLayout>

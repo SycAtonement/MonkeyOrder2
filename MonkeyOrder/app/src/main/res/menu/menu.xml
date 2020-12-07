@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/sendtowechat"
+        android:title="发送到微信"></item>
+    <item
+        android:id="@+id/sendtosms"
+        android:title="发短信给憨憨"></item>
+    <item
+        android:id="@+id/increasefoodlist"
+        android:title="添加菜品"></item>
+    <item
+        android:id="@+id/deleteitem"
+        android:title="删除所选项"></item>
+    <item
+    android:id="@+id/refresh"
+    android:title="刷新页面"></item>
+
+</menu>
