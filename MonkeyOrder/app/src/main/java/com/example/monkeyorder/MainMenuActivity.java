@@ -5,21 +5,32 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.ajts.androidmads.library.ExcelToSQLite;
+import com.ajts.androidmads.library.SQLiteToExcel;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
 
 public class MainMenuActivity extends AppCompatActivity implements View.OnClickListener {
+    private static final String TAG = "syc";
+    private final String PATH = "/sdcard/";
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSIONS_STORAGE = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -56,6 +67,67 @@ public class MainMenuActivity extends AppCompatActivity implements View.OnClickL
         expendmenu.setOnClickListener(this);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu2, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.out2Excel:
+
+                SQLiteToExcel sqliteToExcel = new SQLiteToExcel(this, OrderDB.DATABASE_NAME, PATH);
+                //去掉id项不然导入会失败
+                ArrayList<String> columnsToExclude = new ArrayList<String>();
+                columnsToExclude.add(OrderDB.ID);
+                sqliteToExcel.setExcludeColumns(columnsToExclude);
+                sqliteToExcel.exportAllTables("foods.xls", new SQLiteToExcel.ExportListener() {
+                    @Override
+                    public void onStart() {
+
+                    }
+
+                    @Override
+                    public void onCompleted(String filePath) {
+
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+
+                    }
+                });
+                Toast.makeText(this, "导出成功,文件位于/sdcard/foods", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.excel2In:
+                ExcelToSQLite excelToSQLite = new ExcelToSQLite(getApplicationContext(), OrderDB.DATABASE_NAME);
+                excelToSQLite.importFromFile(PATH + "foods.xls", new ExcelToSQLite.ImportListener() {
+                    @Override
+                    public void onStart() {
+
+                    }
+
+                    @Override
+                    public void onCompleted(String dbName) {
+
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+
+                    }
+                });
+                Log.d(TAG, "onOptionsItemSelected: PATH+\"foods\"" + PATH + "foods");
+                Toast.makeText(this, "导入成功", Toast.LENGTH_SHORT).show();
+                break;
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public void onClick(View v) {
@@ -101,6 +173,7 @@ public class MainMenuActivity extends AppCompatActivity implements View.OnClickL
         double dayCount = (cal2.getTimeInMillis() - cal1.getTimeInMillis()) / (1000 * 3600 * 24);
         return dayCount;
     }
+
     public static void verifyStoragePermissions(Activity activity) {
         // Check if we have write permission
         int permission = ActivityCompat.checkSelfPermission(activity,
