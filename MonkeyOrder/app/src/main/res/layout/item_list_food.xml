@@ -11,7 +11,7 @@
     <CheckBox
         android:id="@+id/checkbox_select"
         android:layout_width="wrap_content"
-        android:layout_height="79dp"
+        android:layout_height="70dp"
         android:layout_marginStart="4dp"
         android:focusable="false"
         android:gravity="center"
@@ -21,11 +21,11 @@
 
     <ImageView
         android:id="@+id/imageview_food"
-        android:layout_width="73dp"
-        android:layout_height="82dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_toRightOf="@id/checkbox_select"
         android:scaleType="fitXY"
-        android:src="@drawable/hongshaorou"
+        android:src="@drawable/ic_launcher_background"
         app:layout_constraintEnd_toStartOf="@+id/textview_foodname"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/checkbox_select"

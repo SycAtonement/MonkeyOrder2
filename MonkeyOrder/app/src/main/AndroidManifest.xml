@@ -15,9 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".BigerImage"></activity>
-        <activity
-            android:name=".IncreaseFood"
-            android:hardwareAccelerated="false"></activity>
+        <activity android:name=".IncreaseFood"></activity>
         <activity android:name=".OrderManager" />
         <activity android:name=".RefrigeratorActivity" />
         <activity android:name=".MainMenuActivity">
@@ -30,6 +28,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
     </application>
 

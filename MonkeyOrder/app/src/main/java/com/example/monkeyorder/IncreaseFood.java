@@ -2,7 +2,9 @@ package com.example.monkeyorder;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -14,13 +16,15 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListPopupWindow;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
@@ -33,7 +37,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class IncreaseFood extends AppCompatActivity implements View.OnClickListener {
+public class IncreaseFood extends AppCompatActivity implements View.OnClickListener, View.OnFocusChangeListener {
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSIONS_STORAGE = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -75,42 +79,105 @@ public class IncreaseFood extends AppCompatActivity implements View.OnClickListe
         confirm.setOnClickListener(this);
         quit.setOnClickListener(this);
         image.setOnClickListener(this);
+        type.setOnFocusChangeListener(this);
 
+    }
+
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        if (hasFocus) {
+            showListPopulWindow(); //调用显示PopuWindow 函数
+        }
+    }
+
+    private void showListPopulWindow() {
+        final String[] list = {"素菜", "荤菜", "汤类", "主食", "甜品", "饮料"};//要填充的数据
+        final ListPopupWindow listPopupWindow;
+        listPopupWindow = new ListPopupWindow(this);
+        listPopupWindow.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list));//用android内置布局，或设计自己的样式
+        listPopupWindow.setAnchorView(type);//以哪个控件为基准，在该处以mEditText为基准
+        listPopupWindow.setModal(true);
+
+        listPopupWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {//设置项点击监听
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                type.setText(list[i]);//把选择的选项内容展示在EditText上
+                listPopupWindow.dismiss();//如果已经选择了，隐藏起来
+            }
+        });
+        listPopupWindow.show();//把ListPopWindow展示出来
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.increase_confirm:
-                String str1 = name.getText().toString();
+                String str1 = name.getText().toString().trim();
                 String str2 = type.getText().toString();
                 String str3 = ingredient.getText().toString();
-                String str4 = "content://media/external/images/media/1618";
-                if (str1 != null) {
+                String str4 = "";
+                if (str1.length() != 0) {
                     orderDB = new OrderDB(this);
                     SQLiteDatabase db = orderDB.getWritableDatabase();
                     ContentValues contentValues = new ContentValues();
                     contentValues.put(OrderDB.FOOD_NAME, str1);
                     contentValues.put(OrderDB.FOOD_TYPE, str2);
-                    Log.d(TAG, "onClick: R.drawable.type_vegetable    " + R.drawable.type_vegetable);
-                    Log.d(TAG, "onClick: imageUri   " + imageUri);
-                    Log.d(TAG, "onClick: String.valueOf(imageUri)   " + String.valueOf(imageUri));
+//                    Log.d(TAG, "onClick: R.drawable.type_vegetable    " + R.drawable.type_vegetable);
+//                    Log.d(TAG, "onClick: imageUri   " + imageUri);
+//                    Log.d(TAG, "onClick: String.valueOf(imageUri)   " + imageUri);
                     if (imageUri == null) {
-                        str4 = "content://media/external/images/media/1618";
-                        Toast.makeText(this, "使用默认图片", Toast.LENGTH_SHORT).show();
-
+                        str4 = "";
+                        Toast.makeText(this, "未选择图片", Toast.LENGTH_SHORT).show();
                     } else {
                         str4 = String.valueOf(imageUri);
-//                        Uri uri = Uri.parse(String.valueOf(imageUri));
-//                        Log.d(TAG, "onClick:string to uri   " + uri);
                     }
-                    contentValues.put(OrderDB.FOOD_IMAGE, str4);
                     contentValues.put(OrderDB.FOOD_INGREDIENT, str3);
+                    contentValues.put(OrderDB.FOOD_IMAGE, str4);
                     db.insert(OrderDB.FOOD_TABLE_NAME, null, contentValues);
-                    Toast.makeText(this, "添加成功", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(IncreaseFood.this, Pick_Activity.class);
-                    startActivity(intent);
-                    finish();
+
+
+                    //    通过AlertDialog.Builder这个类来实例化我们的一个AlertDialog的对象
+                    AlertDialog.Builder builder = new AlertDialog.Builder(IncreaseFood.this);
+                    //    设置Title的图标
+                    builder.setIcon(R.drawable.login_dog);
+                    //    设置Title的内容
+                    builder.setTitle("添加成功");
+                    //    设置Content来显示一个信息
+                    builder.setMessage("继续添加吗？");
+                    //    设置一个PositiveButton
+                    builder.setPositiveButton("继续", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            name.setText("");
+                            type.setText("");
+                            ingredient.setText("");
+                            Toast.makeText(IncreaseFood.this, "添加成功", Toast.LENGTH_SHORT).show();
+
+                        }
+                    });
+                    //    设置一个NegativeButton
+                    builder.setNegativeButton("返回", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(IncreaseFood.this, "添加成功", Toast.LENGTH_SHORT).show();
+
+                            Intent intent = new Intent(IncreaseFood.this, Pick_Activity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    });
+                    //    设置一个NeutralButton
+                    builder.setNeutralButton("忽略", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(IncreaseFood.this, "添加成功", Toast.LENGTH_SHORT).show();
+
+                        }
+                    });
+                    //    显示出该对话框
+                    builder.show();
+
+
                 } else {
                     Toast.makeText(this, "菜名不能为空", Toast.LENGTH_SHORT).show();
                 }
@@ -203,7 +270,7 @@ public class IncreaseFood extends AppCompatActivity implements View.OnClickListe
     }
 
     public void takePhoto() {
-        File outputImage = new File(Environment.getExternalStorageDirectory(), System.currentTimeMillis()+".jpg");
+        File outputImage = new File(Environment.getExternalStorageDirectory(), System.currentTimeMillis() + ".jpg");
         try {
             if (outputImage.exists()) {
                 outputImage.delete();
@@ -221,7 +288,7 @@ public class IncreaseFood extends AppCompatActivity implements View.OnClickListe
     }
 
     public void choosePicture() {
-        File outputImage = new File(Environment.getExternalStorageDirectory(), System.currentTimeMillis()+".jpg");
+        File outputImage = new File(Environment.getExternalStorageDirectory(), System.currentTimeMillis() + ".jpg");
         try {
             if (outputImage.exists()) {
                 outputImage.delete();
@@ -252,6 +319,8 @@ public class IncreaseFood extends AppCompatActivity implements View.OnClickListe
                     REQUEST_EXTERNAL_STORAGE);
         }
     }
+
+
 }
 
 

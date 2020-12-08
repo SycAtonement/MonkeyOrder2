@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".Pick_Activity">
     <ListView
+        android:background="@drawable/white_line"
         android:id="@+id/listview_type"
         android:layout_width="0dp"
         android:layout_height="match_parent"

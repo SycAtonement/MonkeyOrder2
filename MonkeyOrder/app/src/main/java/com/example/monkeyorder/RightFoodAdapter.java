@@ -2,10 +2,8 @@ package com.example.monkeyorder;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Matrix;
+import android.net.Uri;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -14,7 +12,8 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.io.FileNotFoundException;
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 
 class RightFoodAdapter extends BaseAdapter {
@@ -22,13 +21,11 @@ class RightFoodAdapter extends BaseAdapter {
     public ArrayList<Food> mSelectFood;
     private Context context;
     private ArrayList<Food> mFoodList;
-    public  ArrayList<Bitmap> mFoodImages;
 
-    public RightFoodAdapter(Context context, ArrayList<Food> mFoodList, ArrayList<Food> mSelectFood,ArrayList<Bitmap> mFoodImages) {
+    public RightFoodAdapter(Context context, ArrayList<Food> mFoodList, ArrayList<Food> mSelectFood) {
         this.context = context;
         this.mFoodList = mFoodList;
         this.mSelectFood = mSelectFood;
-        this.mFoodImages=mFoodImages;
     }
 
     @Override
@@ -63,22 +60,16 @@ class RightFoodAdapter extends BaseAdapter {
             vh = (ViewHold) convertView.getTag();
         }
         vh.textViewFoodName.setText(mFoodList.get(position).getmFoodName());
-        try {
-            vh.imageViewFood.setImageBitmap(mFoodImages.get(position));
-            Log.d(TAG, "getView: mFoodList.get(position).uriToBitmap(context)) " + mFoodList.get(position).uriToBitmap(context).getByteCount());
-            Log.d(TAG, "getView:mFoodImages.get(position) " + mFoodImages.get(position).getByteCount());
-
-            vh.imageViewFood.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent1 = new Intent(context,BigerImage.class);
-                    intent1.putExtra("uri",mFoodList.get(position).getmFoodImage());
-                    context.startActivity(intent1);
-                }
-            });
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        Uri imageUri = Uri.parse(mFoodList.get(position).getmFoodImage());
+        Glide.with(context).load(imageUri).into(vh.imageViewFood);
+        vh.imageViewFood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1 = new Intent(context, BigerImage.class);
+                intent1.putExtra("uri", mFoodList.get(position).getmFoodImage());
+                context.startActivity(intent1);
+            }
+        });
         vh.textViewFoodIngredient.setText(mFoodList.get(position).getmFoodIngredient());
         vh.checkBoxSelected.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

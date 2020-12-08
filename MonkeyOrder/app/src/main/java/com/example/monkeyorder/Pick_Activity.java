@@ -4,13 +4,9 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -26,13 +22,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.List;
 
 public class Pick_Activity extends AppCompatActivity {
     private ListView listview_type;
@@ -47,33 +41,28 @@ public class Pick_Activity extends AppCompatActivity {
     public ArrayList<String> showTitle = new ArrayList<>();
     private OrderDB orderDB;
     private int lastPosition;
-    public ArrayList<Bitmap> mFoodImages = new ArrayList<>();
-
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pick_activity);
-        Log.d(TAG, "onCreate: initData time begin"+ System.currentTimeMillis());
-        try {
-            initData();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        Log.d(TAG, "onCreate: initData time end"+ System.currentTimeMillis());
+        Log.d(TAG, "onCreate: initData time begin" + System.currentTimeMillis());
 
+        initData();
+
+        Log.d(TAG, "onCreate: initData time end" + System.currentTimeMillis());
 
 
         listview_type = findViewById(R.id.listview_type);
         listview_food = findViewById(R.id.listview_food);
         title = findViewById(R.id.title);
         leftTypeAdapet = new LeftTypeAdapet(this, mTypes);
-        rightFoodAdapter = new RightFoodAdapter(this, mFoods, mSelectFood, mFoodImages);
+        rightFoodAdapter = new RightFoodAdapter(this, mFoods, mSelectFood);
 
-        Log.d(TAG, "onCreate:setAdapter time begin"+ System.currentTimeMillis());
+        Log.d(TAG, "onCreate:setAdapter time begin" + System.currentTimeMillis());
         listview_food.setAdapter(rightFoodAdapter);
-        Log.d(TAG, "onCreate:setAdapter time end"+ System.currentTimeMillis());
+        Log.d(TAG, "onCreate:setAdapter time end" + System.currentTimeMillis());
 
         listview_type.setAdapter(leftTypeAdapet);
 
@@ -158,7 +147,8 @@ public class Pick_Activity extends AppCompatActivity {
                 break;
 
             case R.id.refresh:
-                onRestart();
+
+
                 break;
             case R.id.deleteitem:
                 orderDB = new OrderDB(this);
@@ -167,7 +157,9 @@ public class Pick_Activity extends AppCompatActivity {
                     db.delete(OrderDB.FOOD_TABLE_NAME, "food_name=?", new String[]{mSelectFood.get(i).getmFoodName()});
                 }
                 db.close();
-                onRestart();
+                Intent intent2 = new Intent(Pick_Activity.this, Pick_Activity.class);
+                startActivity(intent2);
+                finish();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -193,39 +185,23 @@ public class Pick_Activity extends AppCompatActivity {
         db.close();
     }
 
-    private void initData() throws FileNotFoundException {
-        FoodType type1 = new FoodType("菜", R.drawable.type_vegetable);
-        FoodType type2 = new FoodType("肉", R.drawable.type_meat);
-        FoodType type3 = new FoodType("汤", R.drawable.type_soup);
+    private void initData() {
+        FoodType type1 = new FoodType("素菜", R.drawable.xianggu);
+        FoodType type2 = new FoodType("荤菜", R.drawable.jitui);
+        FoodType type3 = new FoodType("汤类", R.drawable.tang);
+        FoodType type4 = new FoodType("主食", R.drawable.zhushilei);
+        FoodType type5 = new FoodType("甜品", R.drawable.dangao);
+        FoodType type6 = new FoodType("饮料", R.drawable.guozhi);
         mTypes.add(type1);
         mTypes.add(type2);
         mTypes.add(type3);
+        mTypes.add(type4);
+        mTypes.add(type5);
+        mTypes.add(type6);
 
         orderDB = new OrderDB(this);
         SQLiteDatabase db = orderDB.getWritableDatabase();
         Log.d(TAG, "initData: findMaxId(OrderDB.FOOD_TABLE_NAME)" + findMaxId(OrderDB.FOOD_TABLE_NAME));
-//        if (findMaxId(OrderDB.FOOD_TABLE_NAME) < 3) {
-//            ContentValues contentValues = new ContentValues();
-//            contentValues.put(OrderDB.FOOD_NAME, "默认肉");
-//            contentValues.put(OrderDB.FOOD_TYPE, "肉");
-//            contentValues.put(OrderDB.FOOD_IMAGE, String.valueOf(R.drawable.type_meat));
-//            contentValues.put(OrderDB.FOOD_INGREDIENT, "请勿删除");
-//            db.insert(OrderDB.FOOD_TABLE_NAME, null, contentValues);
-//
-//            ContentValues contentValues1 = new ContentValues();
-//            contentValues1.put(OrderDB.FOOD_NAME, "默认菜");
-//            contentValues1.put(OrderDB.FOOD_TYPE, "菜");
-//            contentValues1.put(OrderDB.FOOD_IMAGE,  String.valueOf(R.drawable.type_vegetable));
-//            contentValues1.put(OrderDB.FOOD_INGREDIENT, "请勿删除");
-//            db.insert(OrderDB.FOOD_TABLE_NAME, null, contentValues1);
-//
-//            ContentValues contentValues2 = new ContentValues();
-//            contentValues2.put(OrderDB.FOOD_NAME, "默认汤");
-//            contentValues2.put(OrderDB.FOOD_TYPE, "汤");
-//            contentValues2.put(OrderDB.FOOD_IMAGE,  String.valueOf(R.drawable.type_soup));
-//            contentValues2.put(OrderDB.FOOD_INGREDIENT, "请勿删除");
-//            db.insert(OrderDB.FOOD_TABLE_NAME, null, contentValues2);
-//        }
 
         Cursor cursor = db.query(OrderDB.FOOD_TABLE_NAME, new String[]{OrderDB.ID, OrderDB.FOOD_NAME, OrderDB.FOOD_TYPE, OrderDB.FOOD_IMAGE, OrderDB.FOOD_INGREDIENT},
                 null, null, null, null, null);
@@ -240,7 +216,6 @@ public class Pick_Activity extends AppCompatActivity {
 
                 String ingredient = cursor.getString(cursor.getColumnIndex(OrderDB.FOOD_INGREDIENT));
                 Food mfood = new Food(image, name, type, ingredient);
-                mFoodImages.add(ImageCompressL(mfood.uriToBitmap(this)));
                 mFoods.add(mfood);
 
                 Log.d(TAG, "initData: mFoods.size() " + mFoods.size());
@@ -284,20 +259,5 @@ public class Pick_Activity extends AppCompatActivity {
         return count;
     }
 
-    private Bitmap ImageCompressL(Bitmap bitmap) {
-        double targetwidth = Math.sqrt(10 * 1000);//约等于100多KB，可自行进行调节
-        if (bitmap.getWidth() > targetwidth || bitmap.getHeight() > targetwidth) {
-            // 创建操作图片用的matrix对象
-            Matrix matrix = new Matrix();
-            // 计算宽高缩放率
-            double x = Math.max(targetwidth / bitmap.getWidth(), targetwidth
-                    / bitmap.getHeight());
-            // 缩放图片动作
-            matrix.postScale((float) x, (float) x);
-            bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(),
-                    bitmap.getHeight(), matrix, true);
-        }
-        return bitmap;
-    }
 
 }
