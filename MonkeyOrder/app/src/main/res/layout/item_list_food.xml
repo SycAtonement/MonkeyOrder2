@@ -11,14 +11,13 @@
 
     <CheckBox
         android:id="@+id/checkbox_select"
-        android:layout_width="wrap_content"
+        android:layout_width="70dp"
         android:layout_height="70dp"
-        android:layout_marginStart="4dp"
         android:focusable="false"
         android:gravity="center"
         android:text="想吃"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="316dp" />
+        />
 
     <ImageView
         android:id="@+id/imageview_food"
@@ -30,27 +29,24 @@
         app:layout_constraintEnd_toStartOf="@+id/textview_foodname"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/checkbox_select"
-        tools:layout_editor_absoluteY="291dp" />
+        />
 
     <LinearLayout
-        android:layout_width="290dp"
-        android:layout_height="69dp"
+        android:layout_width="279dp"
+        android:layout_height="70dp"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/textview_foodname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="164dp"
+            android:layout_width="268dp"
+            android:layout_height="32dp"
             android:text="名字"
-            android:textSize="15dp"
-            tools:layout_editor_absoluteY="329dp" />
+            android:textSize="15dp" />
 
         <TextView
             android:id="@+id/textview_foodingredient"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="164dp"
+            android:layout_width="262dp"
+            android:layout_height="37dp"
             android:text="原料"
             android:textSize="10dp" />
 

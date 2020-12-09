@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -59,7 +60,6 @@ class RightFoodAdapter extends BaseAdapter {
         } else {
             vh = (ViewHold) convertView.getTag();
         }
-        vh.textViewFoodName.setText(mFoodList.get(position).getmFoodName());
         Uri imageUri = Uri.parse(mFoodList.get(position).getmFoodImage());
         Glide.with(context).load(imageUri).into(vh.imageViewFood);
         vh.imageViewFood.setOnClickListener(new View.OnClickListener() {
@@ -70,6 +70,9 @@ class RightFoodAdapter extends BaseAdapter {
                 context.startActivity(intent1);
             }
         });
+        vh.textViewFoodName.setText(mFoodList.get(position).getmFoodName());
+        Log.d(TAG, "getView: textViewFoodName.setText"+  vh.textViewFoodName.getText());
+
         vh.textViewFoodIngredient.setText(mFoodList.get(position).getmFoodIngredient());
         vh.checkBoxSelected.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -96,22 +99,6 @@ class RightFoodAdapter extends BaseAdapter {
         return convertView;
     }
 
-
-//    private Bitmap ImageCompressL(Bitmap bitmap) {
-//        double targetwidth = Math.sqrt(0.5 * 1000);//约等于100多KB，可自行进行调节
-//        if (bitmap.getWidth() > targetwidth || bitmap.getHeight() > targetwidth) {
-//            // 创建操作图片用的matrix对象
-//            Matrix matrix = new Matrix();
-//            // 计算宽高缩放率
-//            double x = Math.max(targetwidth / bitmap.getWidth(), targetwidth
-//                    / bitmap.getHeight());
-//            // 缩放图片动作
-//            matrix.postScale((float) x, (float) x);
-//            bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(),
-//                    bitmap.getHeight(), matrix, true);
-//        }
-//        return bitmap;
-//    }
 
     public class ViewHold {
 

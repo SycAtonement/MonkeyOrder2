@@ -134,50 +134,7 @@ public class IncreaseFood extends AppCompatActivity implements View.OnClickListe
                     contentValues.put(OrderDB.FOOD_INGREDIENT, str3);
                     contentValues.put(OrderDB.FOOD_IMAGE, str4);
                     db.insert(OrderDB.FOOD_TABLE_NAME, null, contentValues);
-
-
-                    //    通过AlertDialog.Builder这个类来实例化我们的一个AlertDialog的对象
-                    AlertDialog.Builder builder = new AlertDialog.Builder(IncreaseFood.this);
-                    //    设置Title的图标
-                    builder.setIcon(R.drawable.login_dog);
-                    //    设置Title的内容
-                    builder.setTitle("添加成功");
-                    //    设置Content来显示一个信息
-                    builder.setMessage("继续添加吗？");
-                    //    设置一个PositiveButton
-                    builder.setPositiveButton("继续", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            name.setText("");
-                            type.setText("");
-                            ingredient.setText("");
-                            Toast.makeText(IncreaseFood.this, "添加成功", Toast.LENGTH_SHORT).show();
-
-                        }
-                    });
-                    //    设置一个NegativeButton
-                    builder.setNegativeButton("返回", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Toast.makeText(IncreaseFood.this, "添加成功", Toast.LENGTH_SHORT).show();
-
-                            Intent intent = new Intent(IncreaseFood.this, Pick_Activity.class);
-                            startActivity(intent);
-                            finish();
-                        }
-                    });
-                    //    设置一个NeutralButton
-                    builder.setNeutralButton("忽略", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Toast.makeText(IncreaseFood.this, "添加成功", Toast.LENGTH_SHORT).show();
-
-                        }
-                    });
-                    //    显示出该对话框
-                    builder.show();
-
-
+                    Toast.makeText(IncreaseFood.this, "添加成功", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(this, "菜名不能为空", Toast.LENGTH_SHORT).show();
                 }
@@ -186,8 +143,6 @@ public class IncreaseFood extends AppCompatActivity implements View.OnClickListe
                 finish();
             case R.id.input_image:
                 showPopupMenu(image);
-
-
         }
 
     }
