@@ -192,11 +192,11 @@ public class Pick_Activity extends AppCompatActivity {
         FoodType type4 = new FoodType("主食", R.drawable.zhushilei);
         FoodType type5 = new FoodType("甜品", R.drawable.dangao);
         FoodType type6 = new FoodType("饮料", R.drawable.guozhi);
+        mTypes.add(type6);
         mTypes.add(type2);
         mTypes.add(type1);
-        mTypes.add(type3);
-        mTypes.add(type6);
         mTypes.add(type5);
+        mTypes.add(type3);
         mTypes.add(type4);
 
         orderDB = new OrderDB(this);

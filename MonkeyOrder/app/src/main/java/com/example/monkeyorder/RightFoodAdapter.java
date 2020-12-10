@@ -85,17 +85,16 @@ class RightFoodAdapter extends BaseAdapter {
             }
         });
 
-        if (position == 0) {//如果是第一个  需要显示标题
-            vh.textViewFoodName.setVisibility(View.VISIBLE);
-            vh.textViewFoodName.setText(mFoodList.get(position).getmFoodName());
-        } else if (!TextUtils.equals(mFoodList.get(position).getmFoodName(),
-                mFoodList.get(position - 1).getmFoodName())) {//如果这个标题和上一个不一样   也需要将标题显示出来
-            vh.textViewFoodName.setVisibility(View.VISIBLE);
-            vh.textViewFoodName.setText(mFoodList.get(position).getmFoodName());
-        } else {
-            vh.textViewFoodName.setVisibility(View.GONE);
-        }
-
+//        if (position == 0) {//如果是第一个  需要显示标题
+//            vh.textViewFoodName.setVisibility(View.VISIBLE);
+//            vh.textViewFoodName.setText(mFoodList.get(position).getmFoodName());
+//        } else if (!TextUtils.equals(mFoodList.get(position).getmFoodName(),
+//                mFoodList.get(position - 1).getmFoodName())) {//如果这个标题和上一个不一样   也需要将标题显示出来
+//            vh.textViewFoodName.setVisibility(View.VISIBLE);
+//            vh.textViewFoodName.setText(mFoodList.get(position).getmFoodName());
+//        } else {
+//            vh.textViewFoodName.setVisibility(View.GONE);
+//        }
         return convertView;
     }
 
